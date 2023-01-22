@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Collection } from "./Collection";
 import "./index.scss";
 
 function App() {
+  const [collections, setCollections] = useState([]);
+
+  useEffect(() => {
+    fetch("https://63cd4e9f0f1d5967f02dc86b.mockapi.io/collections")
+      .then((res) => res.json())
+      .then((json) => {
+        setCollections(json);
+      })
+      .catch((err) => {
+        console.warn(err)
+        alert('Ошибка при получении данных')
+      })
+  }, []);
+
   return (
     <div className="App">
       <h1>Моя коллекция фотографий</h1>

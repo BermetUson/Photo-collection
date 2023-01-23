@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Моя коллекция фотографий</h1>
+      <h1>Коллекция фотографий</h1>
       <div className="top">
         <ul className="tags">
           {places.map((obj, i) => (
@@ -72,7 +72,7 @@ function App() {
         )}
       </div>
       <ul className="pagination">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(3)].map((_, i) => (
           <li
             onClick={() => setPage(i + 1)}
             className={page === i + 1 ? "active" : ""}

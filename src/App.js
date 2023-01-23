@@ -12,10 +12,12 @@ const places = [
 
 function App() {
   const [categoryId, setCategoryId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [collections, setCollections] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
       `https://63cd4e9f0f1d5967f02dc86b.mockapi.io/Photo-collections?${
         categoryId ? `category=${categoryId}` : ""
@@ -28,7 +30,8 @@ function App() {
       .catch((err) => {
         console.warn(err);
         alert("Ошибка при получении данных");
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, [categoryId]);
 
   return (
@@ -36,7 +39,6 @@ function App() {
       <h1>Моя коллекция фотографий</h1>
       <div className="top">
         <ul className="tags">
-          {/* <li className="active">Все</li> */}
           {places.map((obj, i) => (
             <li
               onClick={() => setCategoryId(i)}
@@ -55,13 +57,17 @@ function App() {
         />
       </div>
       <div className="content">
-        {collections
-          .filter((obj) =>
-            obj.name.toLowerCase().includes(searchValue.toLowerCase())
-          )
-          .map((obj, index) => (
-            <Collection key={index} name={obj.name} images={obj.photos} />
-          ))}
+        {isLoading ? (
+          <h2>Идет загруска ...</h2>
+        ) : (
+          collections
+            .filter((obj) =>
+              obj.name.toLowerCase().includes(searchValue.toLowerCase())
+            )
+            .map((obj, index) => (
+              <Collection key={index} name={obj.name} images={obj.photos} />
+            ))
+        )}
       </div>
       <ul className="pagination">
         <li>1</li>

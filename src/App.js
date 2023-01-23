@@ -12,6 +12,7 @@ const places = [
 
 function App() {
   const [categoryId, setCategoryId] = useState(0);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [collections, setCollections] = useState([]);
@@ -70,9 +71,11 @@ function App() {
         )}
       </div>
       <ul className="pagination">
-        <li>1</li>
-        <li className="active">2</li>
-        <li>3</li>
+        {[...Array(5)].map((_, i) => (
+          <li onClick={() => setPage(i)} className={page === i ? "active" : ""}>
+            {i + 1}
+          </li>
+        ))}
       </ul>
     </div>
   );

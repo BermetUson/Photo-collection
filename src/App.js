@@ -19,10 +19,11 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true);
+
+    const category = categoryId ? `category=${categoryId}` : "";
+
     fetch(
-      `https://63cd4e9f0f1d5967f02dc86b.mockapi.io/Photo-collections?${
-        categoryId ? `category=${categoryId}` : ""
-      }`
+      `https://63cd4e9f0f1d5967f02dc86b.mockapi.io/Photo-collections?page=${page}&limit=3&${category}`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -33,7 +34,7 @@ function App() {
         alert("Ошибка при получении данных");
       })
       .finally(() => setIsLoading(false));
-  }, [categoryId]);
+  }, [categoryId, page]);
 
   return (
     <div className="App">
@@ -73,7 +74,7 @@ function App() {
       <ul className="pagination">
         {[...Array(5)].map((_, i) => (
           <li
-            onClick={() => setPage(i)}
+            onClick={() => setPage(i + 1)}
             className={page === i + 1 ? "active" : ""}
           >
             {i + 1}
